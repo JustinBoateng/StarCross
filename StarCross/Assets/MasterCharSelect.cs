@@ -10,7 +10,10 @@ public class MasterCharSelect : MonoBehaviour
     public int[] CharListTracker; // functions to scroll through the CharList for each player.
     public CharacterSelectGear[] CSGSystem = new CharacterSelectGear[2];
 
-    public int PlayerStagePriority;
+    public int[] PlayerStagePriority = new int [2];
+
+    public StageSelect SS;
+
     private void Awake()
     {
         if (MCS == null)
@@ -35,7 +38,8 @@ public class MasterCharSelect : MonoBehaviour
         //because there can be new characters added, we can add it to the CharList.
         //we'll convert the List to the Array for the players to navigate through afterwards.
 
-        PlayerStagePriority = -1;
+        PlayerStagePriority[0] = 0;
+        PlayerStagePriority[1] = 0;
     }
 
     // Update is called once per frame
@@ -46,9 +50,33 @@ public class MasterCharSelect : MonoBehaviour
 
     public void Ready(int PN)
     {
-        if (PN == 0 && PlayerStagePriority != 1) PlayerStagePriority = 0;
-        else if (PN == 1 && PlayerStagePriority != 0) PlayerStagePriority = 1;
-        else PlayerStagePriority = -1;
+        if (PN == 0)
+        {
+            if (PlayerStagePriority[1] == 0) PlayerStagePriority[0] = 1;
+            else; //setup the stage selection with Player 2 as the navigator
+        }
+        else if (PN == 1)
+        {
+            if (PlayerStagePriority[0] == 0) PlayerStagePriority[1] = 1;
+            else; //setup the stage selection with Player 1 as the navigator
+        }
+
+        if (PN == -1)
+        {
+            PlayerStagePriority[0] = 0;
+            PlayerStagePriority[1] = 0;
+        }
+
+        if (PN == 10)
+        {
+            PlayerStagePriority[0] = 0;
+        }//reverse the selection for player 1
+
+        if (PN == 11)
+        {
+            PlayerStagePriority[1] = 0;
+        }//reverse the selection for player 2
+
         //just use Ready(-1) when exiting the StageSelect flag
 
     }

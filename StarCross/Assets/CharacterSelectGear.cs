@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using static System.Linq.Enumerable;
-
+using UnityEngine.EventSystems;
 
 public class CharacterSelectGear : MonoBehaviour
 {
@@ -45,6 +45,8 @@ public class CharacterSelectGear : MonoBehaviour
     public int MaxPartySize;
     public bool PlayerStandby = false;
 
+    public Image ReadyButton;
+    public bool ReadyFlag;
 
     // Start is called before the first frame update
     void Start()
@@ -60,49 +62,78 @@ public class CharacterSelectGear : MonoBehaviour
             ChosenUnitsImages[i].gameObject.SetActive(false);
         }
 
+        //ReadyButton.onClick.AddListener(() => Standby());
+        //ReadyButton.interactable = false;
+
+        ReadyButton.color = Color.gray;
+
+        PlayerStandby = true;
+        DisplayUpdate("Initialize");
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetAxis(AxisUsed) < 0 && HeldLeft == false)
+        if (PlayerStandby == false)
         {
-            DisplayUpdate("Left");
-            HeldLeft = true;
-        }
-        else if (Input.GetAxis(AxisUsed) > 0 && HeldRight == false)
-        {
-            DisplayUpdate("Right");
-            HeldRight = true;
-        }
-        else if (Input.GetAxis(AxisUsed) == 0)
-        {
-            HeldLeft = false;
-            HeldRight = false;
+
+            if (Input.GetAxisRaw(AxisUsed) == -1 && HeldLeft == false)
+            {
+                DisplayUpdate("Left");
+                HeldLeft = true;
+            }//"scroll" left
+
+            else if (Input.GetAxisRaw(AxisUsed) == 1 && HeldRight == false)
+            {
+                DisplayUpdate("Right");
+                HeldRight = true;
+            }//"scroll" right
+
+            else if (Input.GetAxis(AxisUsed) == 0)
+            {
+                HeldLeft = false;
+                HeldRight = false;
+            }//one button check
+
+
+            if (Input.GetButton(PS) && HeldPS == false && ReadyButton.color == Color.white)
+            {
+                MasterCharSelect.MCS.Ready(PlayerNumber);
+                PlayerStandby = true;
+                ReadyButton.color = Color.cyan;
+            }//Ready Confirmation
+
+            else if (Input.GetButton(PS) && HeldPS == false)
+            {
+                SelectCharacter();
+                HeldPS = true;
+            }//Select a character
+
+            else if (!Input.GetButton(PS) && HeldPS == true)
+            {
+                HeldPS = false;
+            }//One Button Check
         }
 
-        if (Input.GetButton(PS) && HeldPS == false)
-        {
-            SelectCharacter();
-            HeldPS = true;
-        }
-
-        else if(!Input.GetButton(PS) && HeldPS == true)
-        {
-            HeldPS = false;
-        }
+        
 
         if (Input.GetButton(PB) && HeldPB == false)
         {
             ChosenUpdateDelete();
             HeldPB = true;
-        }
+        }//Deselect a character
 
         else if (!Input.GetButton(PB) && HeldPB == true)
         {
             HeldPB = false;
-        }
+        }//one button check
+
+        Debug.Log("Input Is: " + Input.GetAxisRaw(AxisUsed));
+
+
+
     }
+
 
     public void DisplayUpdate(string Direction)
     {
@@ -119,7 +150,7 @@ public class CharacterSelectGear : MonoBehaviour
                 break;
 
             case "Initialize":
-
+              
                 break;
         }
 
@@ -188,23 +219,25 @@ public class CharacterSelectGear : MonoBehaviour
 
         if (ChosenUnits.Count(s => s != null) >= MaxPartySize)
         {
-            Debug.Log("Character Selection Full");
+            //Debug.Log("Character Selection Full");
             return;
         }
         //-1
-        Debug.Log("CU.C size is " + ChosenUnits.Count(s => s != null));
+        //Debug.Log("CU.C size is " + ChosenUnits.Count(s => s != null));
         ChosenUnits[ChosenUnits.Count(s => s != null)] = CurrChars[2];
 
         //-2
-        Debug.Log("CUI.C size is " + ChosenUnitsImages.Count(s => s.gameObject.activeSelf == true));
+        //Debug.Log("CUI.C size is " + ChosenUnitsImages.Count(s => s.gameObject.activeSelf == true));
         ChosenUnitsImages[ChosenUnitsImages.Count(s => s.gameObject.activeSelf == true)].gameObject.SetActive(true);//set the image to be active
         ChosenUnitsImages[ChosenUnitsImages.Count(s => s.gameObject.activeSelf == true)-1].sprite = ChosenUnits[ChosenUnits.Count(s => s != null) - 1].Icon;
 
         //-3
         if (ChosenUnits.Count(s => s != null) >= MaxPartySize)
         {
-            MasterCharSelect.MCS.Ready(PlayerNumber);
-            PlayerStandby = true;
+            //ReadyButton.interactable = true;
+            //EventSystem.current.SetSelectedGameObject(ReadyButton.gameObject);
+
+            ReadyButton.color = Color.white;           
         }
         
 
@@ -216,7 +249,7 @@ public class CharacterSelectGear : MonoBehaviour
         //2- if Chosenunits.Count >= MaxPartySize then call the MCS's Ready Function using this CSG's PlayerNumber as a parameter
         if (ChosenUnits.Count(s => s != null) == 0)
         {
-            Debug.Log("No one is Selected");
+            //Debug.Log("No one is Selected");
             return;
         }
         ChosenUnits[ChosenUnits.Count(s => s != null) - 1] = null;
@@ -224,5 +257,28 @@ public class CharacterSelectGear : MonoBehaviour
         ChosenUnitsImages[ChosenUnitsImages.Count(s => s.gameObject.activeSelf == true) - 1].gameObject.SetActive(false);
 
         PlayerStandby = false;
+        //ReadyButton.interactable = false;
+        ReadyButton.color = Color.gray;
+        MasterCharSelect.MCS.Ready(10+PlayerNumber);
+    }
+
+    public void Standby()
+    {
+        MasterCharSelect.MCS.Ready(PlayerNumber);
+        PlayerStandby = true;
+    }
+
+    public void PlayerActivate()
+    {
+        StartCoroutine(PA());
+    } 
+
+    public IEnumerator PA()
+    {
+        Debug.Log("Started Coroutine");
+        yield return new WaitForSeconds(0);
+        PlayerStandby = false;
+        Debug.Log("Ended Coroutine");
+
     }
 }
