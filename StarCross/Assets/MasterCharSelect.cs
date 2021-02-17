@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class MasterCharSelect : MonoBehaviour
 {
@@ -40,6 +42,8 @@ public class MasterCharSelect : MonoBehaviour
 
         PlayerStagePriority[0] = 0;
         PlayerStagePriority[1] = 0;
+
+        SS.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -53,12 +57,14 @@ public class MasterCharSelect : MonoBehaviour
         if (PN == 0)
         {
             if (PlayerStagePriority[1] == 0) PlayerStagePriority[0] = 1;
-            else; //setup the stage selection with Player 2 as the navigator
+            else
+                StageSelectPopup(); //setup the stage selection with Player 2 as the navigator
         }
         else if (PN == 1)
         {
             if (PlayerStagePriority[0] == 0) PlayerStagePriority[1] = 1;
-            else; //setup the stage selection with Player 1 as the navigator
+            else StageSelectPopup();
+            //setup the stage selection with Player 1 as the navigator
         }
 
         if (PN == -1)
@@ -79,5 +85,23 @@ public class MasterCharSelect : MonoBehaviour
 
         //just use Ready(-1) when exiting the StageSelect flag
 
+    }
+
+    public void StageSelectPopup()
+    {
+        SS.gameObject.SetActive(true);
+
+        EventSystem.current.SetSelectedGameObject(SS.StageList[0].gameObject);
+
+        if (PlayerStagePriority[1] == 1)
+        {
+            EventSystem.current.GetComponent<StandaloneInputModule>().horizontalAxis = CSGSystem[1].AxisUsed;
+            EventSystem.current.GetComponent<StandaloneInputModule>().verticalAxis = CSGSystem[1].VAxisUsed;
+        }
+        else if (PlayerStagePriority[0] == 1)
+        {
+            EventSystem.current.GetComponent<StandaloneInputModule>().horizontalAxis = CSGSystem[0].AxisUsed;
+            EventSystem.current.GetComponent<StandaloneInputModule>().verticalAxis = CSGSystem[0].VAxisUsed;
+        }
     }
 }

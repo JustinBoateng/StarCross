@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class StageSelect : MonoBehaviour
 {
@@ -17,6 +18,6 @@ public class StageSelect : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        StageDisplay.sprite = EventSystem.current.currentSelectedGameObject.GetComponent<Image>().sprite;
     }
 }

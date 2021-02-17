@@ -18,6 +18,7 @@ public class CharacterSelectGear : MonoBehaviour
 
     //use these strings to set up player controllers in Unity
     public string AxisUsed;
+    public string VAxisUsed;
     public string PS;
     public string PB;
 
