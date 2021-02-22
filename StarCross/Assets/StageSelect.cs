@@ -6,8 +6,9 @@ using UnityEngine.EventSystems;
 
 public class StageSelect : MonoBehaviour
 {
-    public Button[] StageList;
+    public Button[] StageList = new Button[12];
     public Image StageDisplay;
+    public Stage[] StageInfo = new Stage[12];
 
     // Start is called before the first frame update
     void Start()

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MasterCharSelect : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class MasterCharSelect : MonoBehaviour
     public int[] PlayerStagePriority = new int [2];
 
     public StageSelect SS;
+
+    public BattleStageInfo BSI;
 
     private void Awake()
     {
@@ -43,6 +46,20 @@ public class MasterCharSelect : MonoBehaviour
         PlayerStagePriority[0] = 0;
         PlayerStagePriority[1] = 0;
 
+        for (int i = 0; i < SS.StageList.Length; i++)
+        {
+            int temp = i;
+            SS.StageList[i].onClick.AddListener(delegate {
+                Debug.Log("temp for this button equals " + temp);
+                BSI.SetInfo(CSGSystem[0].ChosenUnits[0], CSGSystem[1].ChosenUnits[0], SS.StageInfo[temp]);
+                SceneManager.LoadScene("BattleScene");
+            });
+            //
+            //BSI: BattleStageInfo: Keeps track of the characters and stage selected
+            //CSGSystem: The CharacterSleectGears, which you can then access their ChosenUnits
+            //add to each button the ability to
+            //
+        }
         SS.gameObject.SetActive(false);
     }
 

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Threading;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class GameState : MonoBehaviour
 {
@@ -29,7 +31,24 @@ public class GameState : MonoBehaviour
     public bool RoundOver = false;
     public float ResetTimer = 3;
 
+    public int[] ScoreBoard = new int[2];
+    public int Round = 0;
+    public int WinCond;
+    public int Winner = 0;
+    //If P1 wins, Winner = 1. if P2 wins, Winner = 2
+
+    public GameObject Player1WinScreen;
+    public GameObject Player2WinScreen;
+    public Transform ScorePositionA;
+    public Transform ScorePositionB;
+
+    public float[] FinishedTimes;
+    public Text[] TimePrints;
+    public float CurrentFinishedTime;
+
     public int[] Points = new int[2] {0,0};
+
+    public float TimeLimit;
     // Start is called before the first frame update
     void Start()
     {
@@ -38,6 +57,18 @@ public class GameState : MonoBehaviour
         PAOriginalPosition.position = PlayerA.transform.position;
         PBOriginalPosition.position = PlayerB.transform.position;
         TiePosition.transform.position = new Vector2((PlayerA.transform.position.x + PlayerB.transform.position.x) / 2, (PlayerA.transform.position.y + PlayerB.transform.position.y) / 2);
+
+        ScoreBoard[0] = 0;
+        ScoreBoard[1] = 0;
+        Round = 0;
+
+        Player1WinScreen.gameObject.SetActive(false);
+        Player2WinScreen.gameObject.SetActive(false);
+
+        FinishedTimes = new float[(WinCond * 2) -1];
+        //TimePrints = new Text[WinCond];
+        
+
     }
 
 
@@ -53,7 +84,7 @@ public class GameState : MonoBehaviour
 
 
             //MasterFlag flips
-            if (timer >= 10)
+            if (timer >= TimeLimit)
             {
                 alert.gameObject.SetActive(true);
                 MasterFlag = true;
@@ -126,6 +157,9 @@ public class GameState : MonoBehaviour
                 Points[0]++;
                 PlayerA.transform.position = new Vector2(PBOriginalPosition.transform.position.x + 2, PlayerA.transform.position.y);
                 RoundOver = true;
+
+                Round++;
+                ScoreBoard[0]++;
             }
             //playerA wins. 
             //point for player A
@@ -137,6 +171,9 @@ public class GameState : MonoBehaviour
                 Points[1]++;
                 PlayerB.transform.position = new Vector2(PAOriginalPosition.transform.position.x - 2, PlayerB.transform.position.y);
                 RoundOver = true;
+
+                Round++;
+                ScoreBoard[1]++;
             }
             //playerB wins. 
             //point for player B            
@@ -148,7 +185,9 @@ public class GameState : MonoBehaviour
                 Debug.Log("It's a draw. Time: " + timer);
                 PlayerA.transform.position = new Vector2(TiePosition.transform.position.x - 0.5f, TiePosition.transform.position.y);
                 PlayerB.transform.position = new Vector2(TiePosition.transform.position.x + 0.5f, TiePosition.transform.position.y);
-                RoundOver = true;
+                //RoundOver = true;
+
+                ResetTheRound();
             }
             //no point for anybody
             //if both flags are up (Condition B)
@@ -157,7 +196,59 @@ public class GameState : MonoBehaviour
         }//Round isn't over
 
         if (RoundOver)
-        {   
+        {
+            FinishedTimes[Round-1] = timer - TimeLimit;
+            CurrentFinishedTime = timer;
+            //Update the FinishedTimes Tracker
+
+            if (ScoreBoard[0] >= WinCond || ScoreBoard[1] >= WinCond)
+            {
+                if (ScoreBoard[0] == ScoreBoard[1])
+                {
+                    ScoreBoard[0]--;
+                    ScoreBoard[1]--;
+                    Round--;
+                }
+
+                else if (ScoreBoard[0] >= WinCond)
+                {
+                    Winner = 1;
+                }
+
+                else Winner = 2;
+            }
+
+            /*
+            if(Winner != 0)
+            {
+                switch (Winner)
+                {
+                    case 1:
+                        Player1WinScreen.gameObject.SetActive(true); 
+                        for(int i = 0; i < FinishedTimes.Length; i++)
+                        {
+                            if(FinishedTimes[i] == 0)
+                                TimePrints[i].text = "Round " + i + ": --:--";
+                           else TimePrints[i].text = "Round " + i + ": " + FinishedTimes[i];
+                        }                       
+                        //try sliding it from outside of the screen to inside the screen 
+                        break;
+
+                    case 2:
+                        Player2WinScreen.gameObject.SetActive(true);
+                        for (int i = 0; i < FinishedTimes.Length; i++)
+                        {
+                            if (FinishedTimes[i] == 0)
+                                TimePrints[i].text = "Round " + i + ": --:--";
+                            else TimePrints[i].text = "Round " + i + ": " + FinishedTimes[i];
+                        }
+                        break;
+                }
+
+                return;
+            }
+            */
+
             ResetTimer -= Time.deltaTime;
             if(ResetTimer <= 0)
             {
@@ -168,7 +259,47 @@ public class GameState : MonoBehaviour
 
     public void ResetTheRound()
     {
-        
+        if (Winner != 0)
+        {
+            switch (Winner)
+            {
+                case 1:
+                    Player1WinScreen.gameObject.SetActive(true);
+                    EventSystem.current.SetSelectedGameObject(GameObject.Find("Rematch One"));
+                    EventSystem.current.GetComponent<StandaloneInputModule>().horizontalAxis = "HorizontalA";
+                    EventSystem.current.GetComponent<StandaloneInputModule>().verticalAxis = "VerticalA";
+
+                    for (int i = 0; i < FinishedTimes.Length; i++)
+                    {
+                        if (FinishedTimes[i] == 0)
+                            TimePrints[i].text = "Round " + i + ": --:--";
+                        else TimePrints[i].text = "Round " + i + ": " + FinishedTimes[i];
+                        TimePrints[i].gameObject.transform.position = new Vector2(ScorePositionA.transform.position.x, TimePrints[i].gameObject.transform.position.y);
+                    }
+                    //try sliding it from outside of the screen to inside the screen 
+                    break;
+
+                case 2:
+                    Player2WinScreen.gameObject.SetActive(true);
+                    EventSystem.current.SetSelectedGameObject(GameObject.Find("Rematch Two"));
+                    EventSystem.current.GetComponent<StandaloneInputModule>().horizontalAxis = "HorizontalB";
+                    EventSystem.current.GetComponent<StandaloneInputModule>().verticalAxis = "VerticalB";
+
+                    for (int i = 0; i < FinishedTimes.Length; i++)
+                    {
+                        if (FinishedTimes[i] == 0)
+                            TimePrints[i].text = "Round " + i + ": --:--";
+                        else TimePrints[i].text = "Round " + i + ": " + FinishedTimes[i];
+                        TimePrints[i].gameObject.transform.position = new Vector2(ScorePositionB.transform.position.x, TimePrints[i].gameObject.transform.position.y);
+
+                    }
+                    break;
+            }
+
+            
+            return;
+
+        }
         PlayerA.transform.position = PAOriginalPosition.position;
         PlayerB.transform.position = PBOriginalPosition.position;
         timer = 0;
