@@ -29,6 +29,7 @@ public class GameState : MonoBehaviour
     public Transform PBOriginalPosition;
     public Transform TiePosition;
     public bool RoundOver = false;
+    public bool GameOver = false;
     public float ResetTimer = 3;
 
     public int[] ScoreBoard = new int[2];
@@ -163,6 +164,8 @@ public class GameState : MonoBehaviour
             }
             //playerA wins. 
             //point for player A
+            
+            
             //if PlayerBFlag is up, but PlayerAFlag isnt...
             if (!PlayerAFlagUp && PlayerBFlagUp)
             {
@@ -177,6 +180,7 @@ public class GameState : MonoBehaviour
             }
             //playerB wins. 
             //point for player B            
+            
             //if both flags are up (Condition A)
             //it's a tie
             if (PlayerAFlagUp && PlayerBFlagUp)
@@ -190,9 +194,11 @@ public class GameState : MonoBehaviour
                 ResetTheRound();
             }
             //no point for anybody
+
             //if both flags are up (Condition B)
             //it's a tie
             //Set up another flag/ Immediately reset the stage (timer = 5 seconds, flag = false, alert.gmaeobject.setactive(false))
+
         }//Round isn't over
 
         if (RoundOver)
@@ -216,51 +222,24 @@ public class GameState : MonoBehaviour
                 }
 
                 else Winner = 2;
-            }
-
-            /*
-            if(Winner != 0)
-            {
-                switch (Winner)
-                {
-                    case 1:
-                        Player1WinScreen.gameObject.SetActive(true); 
-                        for(int i = 0; i < FinishedTimes.Length; i++)
-                        {
-                            if(FinishedTimes[i] == 0)
-                                TimePrints[i].text = "Round " + i + ": --:--";
-                           else TimePrints[i].text = "Round " + i + ": " + FinishedTimes[i];
-                        }                       
-                        //try sliding it from outside of the screen to inside the screen 
-                        break;
-
-                    case 2:
-                        Player2WinScreen.gameObject.SetActive(true);
-                        for (int i = 0; i < FinishedTimes.Length; i++)
-                        {
-                            if (FinishedTimes[i] == 0)
-                                TimePrints[i].text = "Round " + i + ": --:--";
-                            else TimePrints[i].text = "Round " + i + ": " + FinishedTimes[i];
-                        }
-                        break;
-                }
-
-                return;
-            }
-            */
-
+            }          
+      
+            //Modify how long it takes to reset the stage after a round finishes
             ResetTimer -= Time.deltaTime;
-            if(ResetTimer <= 0)
-            {
+            if(ResetTimer <= 0 && !GameOver)
+            {                
                 ResetTheRound();
             }
+          
         }
     }
 
     public void ResetTheRound()
     {
+        //Deciding the winner
         if (Winner != 0)
         {
+            GameOver = true; //set this to true so you dont constantly run ResetTheRound over and over again
             switch (Winner)
             {
                 case 1:
@@ -268,6 +247,7 @@ public class GameState : MonoBehaviour
                     EventSystem.current.SetSelectedGameObject(GameObject.Find("Rematch One"));
                     EventSystem.current.GetComponent<StandaloneInputModule>().horizontalAxis = "HorizontalA";
                     EventSystem.current.GetComponent<StandaloneInputModule>().verticalAxis = "VerticalA";
+                    EventSystem.current.GetComponent<StandaloneInputModule>().submitButton = "ClashA";
 
                     for (int i = 0; i < FinishedTimes.Length; i++)
                     {
@@ -284,6 +264,7 @@ public class GameState : MonoBehaviour
                     EventSystem.current.SetSelectedGameObject(GameObject.Find("Rematch Two"));
                     EventSystem.current.GetComponent<StandaloneInputModule>().horizontalAxis = "HorizontalB";
                     EventSystem.current.GetComponent<StandaloneInputModule>().verticalAxis = "VerticalB";
+                    EventSystem.current.GetComponent<StandaloneInputModule>().submitButton = "ClashB";
 
                     for (int i = 0; i < FinishedTimes.Length; i++)
                     {
@@ -300,6 +281,8 @@ public class GameState : MonoBehaviour
             return;
 
         }
+
+        //resetting the round
         PlayerA.transform.position = PAOriginalPosition.position;
         PlayerB.transform.position = PBOriginalPosition.position;
         timer = 0;

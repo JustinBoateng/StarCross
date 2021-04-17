@@ -2094,10 +2094,11 @@ MonoBehaviour:
   PBOriginalPosition: {fileID: 702261657}
   TiePosition: {fileID: 191265617}
   RoundOver: 0
+  GameOver: 0
   ResetTimer: 3
   ScoreBoard: 0000000000000000
   Round: 0
-  WinCond: 2
+  WinCond: 1
   Winner: 0
   Player1WinScreen: {fileID: 1651089942}
   Player2WinScreen: {fileID: 1040187925}
@@ -4064,7 +4065,7 @@ Transform:
   m_GameObject: {fileID: 2096193549}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 5.18, y: -2.51, z: 0}
-  m_LocalScale: {x: 2.0313, y: 2.0313, z: 2.0313}
+  m_LocalScale: {x: -2.0313, y: 2.0313, z: 2.0313}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
