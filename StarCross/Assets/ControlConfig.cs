@@ -24,6 +24,7 @@ public class ControlConfig : MonoBehaviour
         for (int i = 0; i < ButtonConfig.transform.childCount; i++)
         {
 
+            /*
             if (ButtonConfig.GetChild(i).name == "slashKey")
             {
                 ButtonConfig.GetChild(i).GetComponentInChildren<Text>().text = GameManager.GM.slash.ToString();
@@ -42,7 +43,270 @@ public class ControlConfig : MonoBehaviour
                 });
 
             }
-            
+            */
+
+            if (ButtonConfig.GetChild(i).name == "LKeyOne")
+            {
+                ButtonConfig.GetChild(i).GetComponentInChildren<Text>().text = GameManager.GM.LModeOne.ToString();
+
+                GameObject Reference = ButtonConfig.GetChild(i).gameObject;
+                //a future reference to the actual button we're talking about
+
+                ButtonConfig.GetChild(i).GetComponent<Button>().onClick.AddListener(delegate
+                {
+
+                    SentText(Reference.GetComponentInChildren<Text>());
+
+                    EventSystem.current.SetSelectedGameObject(null);
+
+                    StartAssignment(Reference.name.Replace("Key", ""));
+
+                    EventSystem.current.SetSelectedGameObject(Reference);
+
+                });
+
+            }
+
+            if (ButtonConfig.GetChild(i).name == "LKeyTwo")
+            {
+                ButtonConfig.GetChild(i).GetComponentInChildren<Text>().text = GameManager.GM.LModeTwo.ToString();
+
+                GameObject Reference = ButtonConfig.GetChild(i).gameObject;
+                //a future reference to the actual button we're talking about
+
+                ButtonConfig.GetChild(i).GetComponent<Button>().onClick.AddListener(delegate
+                {
+
+                    SentText(Reference.GetComponentInChildren<Text>());
+
+                    EventSystem.current.SetSelectedGameObject(null);
+
+                    StartAssignment(Reference.name.Replace("Key", ""));
+
+                    EventSystem.current.SetSelectedGameObject(Reference);
+
+                });
+
+            }
+
+            if (ButtonConfig.GetChild(i).name == "RKeyOne")
+            {
+                ButtonConfig.GetChild(i).GetComponentInChildren<Text>().text = GameManager.GM.RModeOne.ToString();
+
+                GameObject Reference = ButtonConfig.GetChild(i).gameObject;
+                //a future reference to the actual button we're talking about
+
+                ButtonConfig.GetChild(i).GetComponent<Button>().onClick.AddListener(delegate
+                {
+
+                    SentText(Reference.GetComponentInChildren<Text>());
+
+                    EventSystem.current.SetSelectedGameObject(null);
+
+                    StartAssignment(Reference.name.Replace("Key", ""));
+
+                    EventSystem.current.SetSelectedGameObject(Reference);
+
+                });
+
+            }
+
+            if (ButtonConfig.GetChild(i).name == "RKeyTwo")
+            {
+                ButtonConfig.GetChild(i).GetComponentInChildren<Text>().text = GameManager.GM.RModeTwo.ToString();
+
+                GameObject Reference = ButtonConfig.GetChild(i).gameObject;
+                //a future reference to the actual button we're talking about
+
+                ButtonConfig.GetChild(i).GetComponent<Button>().onClick.AddListener(delegate
+                {
+
+                    SentText(Reference.GetComponentInChildren<Text>());
+
+                    EventSystem.current.SetSelectedGameObject(null);
+
+                    StartAssignment(Reference.name.Replace("Key", ""));
+
+                    EventSystem.current.SetSelectedGameObject(Reference);
+
+                });
+
+            }
+
+            if (ButtonConfig.GetChild(i).name == "AKeyOne")
+            {
+                ButtonConfig.GetChild(i).GetComponentInChildren<Text>().text = GameManager.GM.AButtonOne.ToString();
+
+                GameObject Reference = ButtonConfig.GetChild(i).gameObject;
+                //a future reference to the actual button we're talking about
+
+                ButtonConfig.GetChild(i).GetComponent<Button>().onClick.AddListener(delegate
+                {
+
+                    SentText(Reference.GetComponentInChildren<Text>());
+
+                    EventSystem.current.SetSelectedGameObject(null);
+
+                    StartAssignment(Reference.name.Replace("Key", ""));
+
+                    EventSystem.current.SetSelectedGameObject(Reference);
+
+                });
+
+            }
+
+            if (ButtonConfig.GetChild(i).name == "AKeyTwo")
+            {
+                ButtonConfig.GetChild(i).GetComponentInChildren<Text>().text = GameManager.GM.AButtonTwo.ToString();
+
+                GameObject Reference = ButtonConfig.GetChild(i).gameObject;
+                //a future reference to the actual button we're talking about
+
+                ButtonConfig.GetChild(i).GetComponent<Button>().onClick.AddListener(delegate
+                {
+
+                    SentText(Reference.GetComponentInChildren<Text>());
+
+                    EventSystem.current.SetSelectedGameObject(null);
+
+                    StartAssignment(Reference.name.Replace("Key", ""));
+
+                    EventSystem.current.SetSelectedGameObject(Reference);
+                });
+
+            }
+
+            if (ButtonConfig.GetChild(i).name == "BKeyOne")
+            {
+                ButtonConfig.GetChild(i).GetComponentInChildren<Text>().text = GameManager.GM.BButtonOne.ToString();
+
+                GameObject Reference = ButtonConfig.GetChild(i).gameObject;
+                //a future reference to the actual button we're talking about
+
+                ButtonConfig.GetChild(i).GetComponent<Button>().onClick.AddListener(delegate
+                {
+
+                    SentText(Reference.GetComponentInChildren<Text>());
+
+                    EventSystem.current.SetSelectedGameObject(null);
+
+                    StartAssignment(Reference.name.Replace("Key", ""));
+
+                    EventSystem.current.SetSelectedGameObject(Reference);
+
+                });
+
+            }
+
+            if (ButtonConfig.GetChild(i).name == "BKeyTwo")
+            {
+                ButtonConfig.GetChild(i).GetComponentInChildren<Text>().text = GameManager.GM.BButtonTwo.ToString();
+
+                GameObject Reference = ButtonConfig.GetChild(i).gameObject;
+                //a future reference to the actual button we're talking about
+
+                ButtonConfig.GetChild(i).GetComponent<Button>().onClick.AddListener(delegate
+                {
+
+                    SentText(Reference.GetComponentInChildren<Text>());
+
+                    EventSystem.current.SetSelectedGameObject(null);
+
+                    StartAssignment(Reference.name.Replace("Key", ""));
+
+                    EventSystem.current.SetSelectedGameObject(Reference);
+
+                });
+
+            }
+
+            if (ButtonConfig.GetChild(i).name == "CKeyOne")
+            {
+                ButtonConfig.GetChild(i).GetComponentInChildren<Text>().text = GameManager.GM.CButtonOne.ToString();
+
+                GameObject Reference = ButtonConfig.GetChild(i).gameObject;
+                //a future reference to the actual button we're talking about
+
+                ButtonConfig.GetChild(i).GetComponent<Button>().onClick.AddListener(delegate
+                {
+
+                    SentText(Reference.GetComponentInChildren<Text>());
+
+                    EventSystem.current.SetSelectedGameObject(null);
+
+                    StartAssignment(Reference.name.Replace("Key", ""));
+
+                    EventSystem.current.SetSelectedGameObject(Reference);
+
+                });
+
+            }
+
+            if (ButtonConfig.GetChild(i).name == "CKeyTwo")
+            {
+                ButtonConfig.GetChild(i).GetComponentInChildren<Text>().text = GameManager.GM.CButtonTwo.ToString();
+
+                GameObject Reference = ButtonConfig.GetChild(i).gameObject;
+                //a future reference to the actual button we're talking about
+
+                ButtonConfig.GetChild(i).GetComponent<Button>().onClick.AddListener(delegate
+                {
+
+                    SentText(Reference.GetComponentInChildren<Text>());
+
+                    EventSystem.current.SetSelectedGameObject(null);
+
+                    StartAssignment(Reference.name.Replace("Key", ""));
+
+                    EventSystem.current.SetSelectedGameObject(Reference);
+
+                });
+
+            }
+
+            if (ButtonConfig.GetChild(i).name == "DKeyOne")
+            {
+                ButtonConfig.GetChild(i).GetComponentInChildren<Text>().text = GameManager.GM.DButtonOne.ToString();
+
+                GameObject Reference = ButtonConfig.GetChild(i).gameObject;
+                //a future reference to the actual button we're talking about
+
+                ButtonConfig.GetChild(i).GetComponent<Button>().onClick.AddListener(delegate
+                {
+
+                    SentText(Reference.GetComponentInChildren<Text>());
+
+                    EventSystem.current.SetSelectedGameObject(null);
+
+                    StartAssignment(Reference.name.Replace("Key", ""));
+
+                    EventSystem.current.SetSelectedGameObject(Reference);
+
+                });
+
+            }
+
+            if (ButtonConfig.GetChild(i).name == "DKeyTwo")
+            {
+                ButtonConfig.GetChild(i).GetComponentInChildren<Text>().text = GameManager.GM.DButtonTwo.ToString();
+
+                GameObject Reference = ButtonConfig.GetChild(i).gameObject;
+                //a future reference to the actual button we're talking about
+
+                ButtonConfig.GetChild(i).GetComponent<Button>().onClick.AddListener(delegate
+                {
+
+                    SentText(Reference.GetComponentInChildren<Text>());
+
+                    EventSystem.current.SetSelectedGameObject(null);
+
+                    StartAssignment(Reference.name.Replace("Key", ""));
+
+                    EventSystem.current.SetSelectedGameObject(Reference);
+
+                });
+
+            }
         }
 
 
@@ -107,6 +371,7 @@ public class ControlConfig : MonoBehaviour
 
         switch (keyName)
         {
+            /*
             case "left":
                 GameManager.GM.left = newKey;
                 buttonText.text = GameManager.GM.left.ToString();
@@ -141,6 +406,81 @@ public class ControlConfig : MonoBehaviour
                 GameManager.GM.slash = newKey;
                 buttonText.text = GameManager.GM.slash.ToString();
                 PlayerPrefs.SetString("slashKey", GameManager.GM.slash.ToString());
+                break;
+                */
+
+            case "LOne":
+                GameManager.GM.LModeOne = newKey;
+                buttonText.text = GameManager.GM.LModeOne.ToString();
+                PlayerPrefs.SetString("LModeOne", GameManager.GM.LModeOne.ToString());
+                break;
+
+            case "LTwo":
+                GameManager.GM.LModeTwo = newKey;
+                buttonText.text = GameManager.GM.LModeTwo.ToString();
+                PlayerPrefs.SetString("LModeTwo", GameManager.GM.LModeTwo.ToString());
+                break;
+
+            case "ROne":
+                GameManager.GM.RModeOne = newKey;
+                buttonText.text = GameManager.GM.RModeOne.ToString();
+                PlayerPrefs.SetString("RModeOne", GameManager.GM.RModeOne.ToString());
+                break;
+
+            case "RTwo":
+                GameManager.GM.RModeTwo = newKey;
+                buttonText.text = GameManager.GM.RModeTwo.ToString();
+                PlayerPrefs.SetString("RModeTwo", GameManager.GM.RModeTwo.ToString());
+                break;
+
+            case "AOne":
+                GameManager.GM.AButtonOne = newKey;
+                buttonText.text = GameManager.GM.AButtonOne.ToString();
+                PlayerPrefs.SetString("AButtonOne", GameManager.GM.AButtonOne.ToString());
+                break;
+
+            case "ATwo":
+                GameManager.GM.AButtonTwo = newKey;
+                buttonText.text = GameManager.GM.AButtonTwo.ToString();
+                PlayerPrefs.SetString("AButtonTwo", GameManager.GM.AButtonTwo.ToString());
+                break;
+
+            case "BOne":
+                GameManager.GM.BButtonOne = newKey;
+                buttonText.text = GameManager.GM.BButtonOne.ToString();
+                PlayerPrefs.SetString("BButtonOne", GameManager.GM.BButtonOne.ToString());
+                break;
+
+            case "BTwo":
+                GameManager.GM.BButtonTwo = newKey;
+                buttonText.text = GameManager.GM.BButtonTwo.ToString();
+                PlayerPrefs.SetString("BButtonTwo", GameManager.GM.BButtonTwo.ToString());
+                break;
+
+            case "COne":
+                
+                    GameManager.GM.CButtonOne = newKey;
+                    buttonText.text = GameManager.GM.CButtonOne.ToString();
+                    PlayerPrefs.SetString("CButtonOne", GameManager.GM.CButtonOne.ToString());
+                    break;
+                
+
+            case "CTwo":
+                GameManager.GM.CButtonTwo = newKey;
+                buttonText.text = GameManager.GM.CButtonTwo.ToString();
+                PlayerPrefs.SetString("CButtonTwo", GameManager.GM.CButtonTwo.ToString());
+                break;
+
+            case "DOne":
+                GameManager.GM.DButtonOne = newKey;
+                buttonText.text = GameManager.GM.DButtonOne.ToString();
+                PlayerPrefs.SetString("DButtonOne", GameManager.GM.DButtonOne.ToString());
+                break;
+
+            case "DTwo":
+                GameManager.GM.DButtonTwo = newKey;
+                buttonText.text = GameManager.GM.DButtonTwo.ToString();
+                PlayerPrefs.SetString("DButtonTwo", GameManager.GM.DButtonTwo.ToString());
                 break;
         }
         yield return null;

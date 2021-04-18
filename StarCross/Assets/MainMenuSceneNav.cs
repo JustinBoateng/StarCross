@@ -49,8 +49,8 @@ public class MainMenuSceneNav : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(FirstSelectedObject.gameObject);
         EventSystem.current.GetComponent<StandaloneInputModule>().horizontalAxis = "HorizontalA";
         EventSystem.current.GetComponent<StandaloneInputModule>().verticalAxis = "VerticalA";
-        EventSystem.current.GetComponent<StandaloneInputModule>().submitButton = "ClashA";
-        EventSystem.current.GetComponent<StandaloneInputModule>().cancelButton = "P1Back";
+        //EventSystem.current.GetComponent<StandaloneInputModule>().submitButton = "Submit";
+        //EventSystem.current.GetComponent<StandaloneInputModule>().cancelButton = "P1Back";
 
     }
 
