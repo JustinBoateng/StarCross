@@ -8,8 +8,9 @@ public class Move : MonoBehaviour
 
     public float StartTime;
     public float HangTime;
-    public int PlayerUser = 0; // 1 == Player 1 is using the move, 2 == Player 2 is using the move
+    public float AirTime; //suspend the character in the air for this amount of seconds.
 
+    public int PlayerUser = 0; // 1 == Player 1 is using the move, 2 == Player 2 is using the move
 
     public Transform[] Position;
 

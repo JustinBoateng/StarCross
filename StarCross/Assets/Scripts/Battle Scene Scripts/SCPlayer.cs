@@ -12,8 +12,11 @@ public class SCPlayer : MonoBehaviour
     public int ActiveMove = -1;
     public float ActiveMoveTimer = 0;
     public float ActiveMoveStartsIn = 0;
+    public float ActiveMoveAirTimeTypeA = 0;//Reserved for moves hat have the character hang in the air at the start of the move 
+    public bool isHovering = false;
     public bool PasstheTime = false;
-    public int[] moverelay;
+
+    public float fallmultiplier = 2.5f;
 
     public int PlayerNumber;
     public string AButton;
@@ -26,6 +29,7 @@ public class SCPlayer : MonoBehaviour
     public BoxCollider2D hurtbox;
     public BoxCollider2D myStandingCollider;
     public Rigidbody2D myRigidBody;
+    public float GravityScale;
 
 
 
@@ -47,6 +51,8 @@ public class SCPlayer : MonoBehaviour
             CButton = "CKeyTwo";
             DButton = "DKeyTwo";
         }
+        myRigidBody = GetComponent<Rigidbody2D>();
+        GravityScale = myRigidBody.gravityScale;
     }
 
     // Update is called once per frame
@@ -73,6 +79,13 @@ public class SCPlayer : MonoBehaviour
                 ActiveMoveTimer += Time.deltaTime;
             }
 
+            if (ActiveMoveTimer < ActiveMoveAirTimeTypeA) myRigidBody.gravityScale = 0;
+            else if (ActiveMoveTimer >= ActiveMoveAirTimeTypeA) myRigidBody.gravityScale = GravityScale;
+            if(myRigidBody.velocity.y < 0)
+            {
+                myRigidBody.velocity += Vector2.up * Physics2D.gravity.y * (fallmultiplier - 1) * Time.deltaTime;
+            }
+
             if ((ActiveMoveTimer > ActiveMoveStartsIn) && (StartupMove != -1)) 
             {
                 Debug.Log("Activating Move at " + ActiveMoveTimer);
@@ -81,6 +94,9 @@ public class SCPlayer : MonoBehaviour
 
                 ActiveMove = StartupMove;
                 StartupMove = -1;
+
+
+
             }
             //ActiveMoveTimer can only be greater than ActiveMoveStartsin if a Move was used.
             //when it does become greater, activate the move, then reset the timer
@@ -91,8 +107,11 @@ public class SCPlayer : MonoBehaviour
             }//start the timer to DEACTIVATE the move, only after the move is out
             */
 
-            if ((ActiveMove != -1) && (ActiveMoveTimer > Actions[ActiveMove].HangTime)) DeactivateMove();
-                //once enough time passes, consider the move deactive.
+            if ((ActiveMove != -1) && (ActiveMoveTimer > Actions[ActiveMove].HangTime))
+            {
+                DeactivateMove();
+
+            }//once enough time passes, consider the move deactive.
 
             //if (hurtbox.)
             //if the player comes into contact with a move that is not from the player ie. the move has a different PlayerUser value than this Player's PlayerNumber
@@ -110,6 +129,7 @@ public class SCPlayer : MonoBehaviour
         //Start the buildup of the move (if the move has any buildup)
 
         ActiveMoveStartsIn = Actions[i].StartTime;
+        ActiveMoveAirTimeTypeA = Actions[i].AirTime;
         PasstheTime = true;           //set up the countdown
         StartupMove = i; //THEN set the ActiveMove variable ONLY AFTER the countdown starts
     }
