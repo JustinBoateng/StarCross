@@ -26,7 +26,8 @@ public class SCPlayer : MonoBehaviour
 
     public bool CanMove = false;
 
-    public BoxCollider2D hurtbox;
+    //public BoxCollider2D hurtbox;
+    //the player collider will act as the hurtbox, detecting the hitboxes of other moves
     public BoxCollider2D myStandingCollider;
     public Rigidbody2D myRigidBody;
     public float GravityScale;
@@ -79,12 +80,17 @@ public class SCPlayer : MonoBehaviour
                 ActiveMoveTimer += Time.deltaTime;
             }
 
-            if (ActiveMoveTimer < ActiveMoveAirTimeTypeA) myRigidBody.gravityScale = 0;
-            else if (ActiveMoveTimer >= ActiveMoveAirTimeTypeA) myRigidBody.gravityScale = GravityScale;
-            if(myRigidBody.velocity.y < 0)
+            if ((ActiveMoveTimer < ActiveMoveAirTimeTypeA) && PasstheTime) myRigidBody.gravityScale = 0; 
+            else myRigidBody.gravityScale = GravityScale;
+            //while enough time hasn't passed yet, hold the character in the air
+            //This has to be detached from the check for if the move started or finished yet
+            //PasstheTime is being checked too. PasstheTime becomes false when any move is Deactivated via the Deactivate function.
+            //Putting the check here is just a safety measure since there are some cases where ActiveMoveTimer forever remains less than ActiveMoveAirTime
+
+            if (myRigidBody.velocity.y < 0)
             {
                 myRigidBody.velocity += Vector2.up * Physics2D.gravity.y * (fallmultiplier - 1) * Time.deltaTime;
-            }
+            } //Better Falling speed equation
 
             if ((ActiveMoveTimer > ActiveMoveStartsIn) && (StartupMove != -1)) 
             {
@@ -99,13 +105,8 @@ public class SCPlayer : MonoBehaviour
 
             }
             //ActiveMoveTimer can only be greater than ActiveMoveStartsin if a Move was used.
-            //when it does become greater, activate the move, then reset the timer
-
-            /*if (ActiveMove != -1 && ActiveMoveTimer == 0)
-            {
-                PasstheTime = true;
-            }//start the timer to DEACTIVATE the move, only after the move is out
-            */
+            //when it does become greater, actually ACTIVATE the move, then reset the timer
+      
 
             if ((ActiveMove != -1) && (ActiveMoveTimer > Actions[ActiveMove].HangTime))
             {
@@ -116,9 +117,28 @@ public class SCPlayer : MonoBehaviour
             //if (hurtbox.)
             //if the player comes into contact with a move that is not from the player ie. the move has a different PlayerUser value than this Player's PlayerNumber
             //then, for now ,stun the player... and Debug.Log that the player is stunned    
+
+       
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!collision) { }
+        if (collision.tag == "HitBox")
+        {
+            if (collision.GetComponentInParent<SCPlayer>().PlayerNumber != PlayerNumber)
+                Debug.Log("Attack registered from Player " + collision.GetComponentInParent<SCPlayer>().PlayerNumber);
+        }
+        else return;
+        /*If the collision that is touching the player is that of a 
+            Hitbox
+            that belongs NOT to this player...
+
+        Then announce that a hit has been scored.
+         */
+    }
+    //Detect if the player got hit by a move
 
     public void UseMove(int i)
     {
@@ -151,6 +171,7 @@ public class SCPlayer : MonoBehaviour
         ActiveMove = -1;
         PasstheTime = false;
         ActiveMoveTimer = 0;
+        myRigidBody.gravityScale = GravityScale; 
     }
 
 }
