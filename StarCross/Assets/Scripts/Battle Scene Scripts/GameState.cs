@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 
 public class GameState : MonoBehaviour
 {
-    float timer;
+    public float timer;
 
     public GameObject alert;
     public bool MasterFlag = false;
@@ -81,7 +81,7 @@ public class GameState : MonoBehaviour
             timer += Time.deltaTime;
 
 
-            Debug.Log("Counter = " + (int)timer);
+            //Debug.Log("Counter = " + (int)timer);
 
 
             //MasterFlag flips
@@ -98,7 +98,7 @@ public class GameState : MonoBehaviour
 
             //(Input Check)
             //IF player isn't stunned
-
+            /*
             if (!PlayerAIsStunned)
             {
                 //check for lone button input.                
@@ -149,19 +149,20 @@ public class GameState : MonoBehaviour
                 }
 
             }
-
+            
 
             //flag check (Outcome Check)
+            */
             //if PlayerAFlag is up, but PlayerBFlag isnt...
-            if (PlayerAFlagUp && !PlayerBFlagUp)
+            if (PlayerB.isHit)
             {
                 //Play Animation
                 Debug.Log("Player 1 Wins. Time: " + timer);
                 Points[0]++;
-                PlayerA.transform.position = new Vector2(PBOriginalPosition.transform.position.x + 2, PlayerA.transform.position.y);
+                //PlayerA.transform.position = new Vector2(PBOriginalPosition.transform.position.x + 2, PlayerA.transform.position.y);
                 RoundOver = true;
-
                 Round++;
+
                 ScoreBoard[0]++;
             }
             //playerA wins. 
@@ -169,22 +170,33 @@ public class GameState : MonoBehaviour
             
             
             //if PlayerBFlag is up, but PlayerAFlag isnt...
-            if (!PlayerAFlagUp && PlayerBFlagUp)
+            if (PlayerA.isHit)
             {
                 //Play Animation
                 Debug.Log("Player 2 Wins. Time: " + timer);
                 Points[1]++;
-                PlayerB.transform.position = new Vector2(PAOriginalPosition.transform.position.x - 2, PlayerB.transform.position.y);
+                //PlayerB.transform.position = new Vector2(PAOriginalPosition.transform.position.x - 2, PlayerB.transform.position.y);
                 RoundOver = true;
-
                 Round++;
                 ScoreBoard[1]++;
             }
             //playerB wins. 
             //point for player B            
-            
+
+            if (PlayerB.isHit && PlayerA.isHit)
+            {
+                RoundOver = true;
+               
+                Round--;
+                /*
+               ScoreBoard[0]++;
+               ScoreBoard[1]++;
+               */
+            }//Players traded blows
+
             //if both flags are up (Condition A)
             //it's a tie
+            /*
             if (PlayerAFlagUp && PlayerBFlagUp)
             {
                 //Play Animation
@@ -196,6 +208,7 @@ public class GameState : MonoBehaviour
                 ResetTheRound();
             }
             //no point for anybody
+            */
 
             //if both flags are up (Condition B)
             //it's a tie
@@ -205,18 +218,22 @@ public class GameState : MonoBehaviour
 
         if (RoundOver)
         {
+            Debug.Log("Round " + Round);
+            
             FinishedTimes[Round-1] = timer - TimeLimit;
             CurrentFinishedTime = timer;
             //Update the FinishedTimes Tracker
 
             if (ScoreBoard[0] >= WinCond || ScoreBoard[1] >= WinCond)
             {
+                
+
                 if (ScoreBoard[0] == ScoreBoard[1])
                 {
                     ScoreBoard[0]--;
                     ScoreBoard[1]--;
                     Round--;
-                }
+                }//Tie situation
 
                 else if (ScoreBoard[0] >= WinCond)
                 {
@@ -241,6 +258,8 @@ public class GameState : MonoBehaviour
         //Deciding the winner
         if (Winner != 0)
         {
+            Debug.Log("A Winner has been decided");
+
             GameOver = true; //set this to true so you dont constantly run ResetTheRound over and over again
             switch (Winner)
             {
@@ -290,10 +309,10 @@ public class GameState : MonoBehaviour
         timer = 0;
         MasterFlag = false;
         alert.gameObject.SetActive(false);
-        PlayerAIsStunned = false;
+        PlayerA.IsHitRevert();
         StunCounterA = 0;
         PlayerAFlagUp = false;
-        PlayerBIsStunned = false;
+        PlayerB.IsHitRevert();
         StunCounterB = 0;
         PlayerBFlagUp = false;
         ResetTimer = 3;
