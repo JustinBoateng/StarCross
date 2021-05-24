@@ -67,7 +67,7 @@ public class GameState : MonoBehaviour
         Player2WinScreen.gameObject.SetActive(false);
 
         FinishedTimes = new float[(WinCond * 2) -1];
-        //TimePrints = new Text[WinCond];
+        TimePrints = new Text[FinishedTimes.Length];
         
 
     }
@@ -287,7 +287,7 @@ public class GameState : MonoBehaviour
                     EventSystem.current.GetComponent<StandaloneInputModule>().verticalAxis = "VerticalB";
                     EventSystem.current.GetComponent<StandaloneInputModule>().submitButton = "ClashB";
 
-                    for (int i = 0; i < FinishedTimes.Length; i++)
+                    for (int i = 0; i < TimePrints.Length; i++)
                     {
                         if (FinishedTimes[i] == 0)
                             TimePrints[i].text = "Round " + i + ": --:--";

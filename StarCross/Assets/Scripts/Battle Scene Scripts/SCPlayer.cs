@@ -115,7 +115,7 @@ public class SCPlayer : MonoBehaviour
             }
             //ActiveMoveTimer can only be greater than ActiveMoveStartsin if a Move was used.
             //when it does become greater, actually ACTIVATE the move, then reset the timer
-
+            /*
             if (ActiveMove != -1)
             {
                 if (numberOfHitboxes == 3)
@@ -136,6 +136,7 @@ public class SCPlayer : MonoBehaviour
                 else if ((Actions[ActiveMove].HitBox[0].IsTouchingLayers(9))) HitConfirm = true;
 
             }
+            */
             //If the move hits something in the Hurtbox Layer, aka, a player
             //Then yes, the hit connected
             //do the same for any other hitboxes
