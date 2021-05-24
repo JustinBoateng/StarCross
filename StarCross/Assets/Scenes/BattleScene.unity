@@ -545,7 +545,7 @@ MonoBehaviour:
   ActiveMoveAirTimeTypeA: 0
   isHovering: 0
   PasstheTime: 0
-  fallmultiplier: 2.5
+  fallmultiplier: 0.5
   PlayerNumber: 2
   AButton: 
   BButton: 
@@ -558,7 +558,7 @@ MonoBehaviour:
   isHit: 0
   HitConfirm: 0
   numberOfHitboxes: 0
-  ImpulseModifier: 15
+  ImpulseModifier: 16
   health: 10
 --- !u!212 &71758489
 SpriteRenderer:
@@ -3049,7 +3049,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: 
   StartTime: 0
-  HangTime: 1
+  HangTime: 0.2
   AirTime: 0
   PlayerUser: 0
   Position:
@@ -3481,7 +3481,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: 
   StartTime: 0
-  HangTime: 1
+  HangTime: 0.2
   AirTime: 0
   PlayerUser: 0
   Position:
@@ -3861,6 +3861,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 854794050}
   m_CullTransparentMesh: 0
+--- !u!1 &874926324
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 874926325}
+  - component: {fileID: 874926326}
+  m_Layer: 0
+  m_Name: Hitbox C3A (3)
+  m_TagString: HitBox
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &874926325
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 874926324}
+  m_LocalRotation: {x: -0, y: 0, z: -0.36045012, w: 0.9327785}
+  m_LocalPosition: {x: 0.29606104, y: -0.70055294, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1960066601}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -42.256}
+--- !u!61 &874926326
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 874926324}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.83264744, y: -1.6333388}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.6133735, y: 2.8596475}
+  m_EdgeRadius: 0
 --- !u!1 &879391534
 GameObject:
   m_ObjectHideFlags: 0
@@ -4382,7 +4439,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Standard Slash
   StartTime: 0
-  HangTime: 1
+  HangTime: 0.2
   AirTime: 0
   PlayerUser: 0
   Position:
@@ -5154,7 +5211,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Air Beam
   StartTime: 0.3
-  HangTime: 0.4
+  HangTime: 0.32
   AirTime: 1
   PlayerUser: 0
   Position:
@@ -5848,7 +5905,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 2.5862432, y: -1.1078414}
+  m_Offset: {x: 2.5862432, y: -1.1324506}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -5859,7 +5916,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.9853659, y: 0.93738294}
+  m_Size: {x: 2.9853659, y: 0.53244257}
   m_EdgeRadius: 0
 --- !u!1 &1329670164
 GameObject:
@@ -6907,7 +6964,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Standard Slash
   StartTime: 0
-  HangTime: 1
+  HangTime: 0.2
   AirTime: 0
   PlayerUser: 0
   Position:
@@ -7800,7 +7857,7 @@ MonoBehaviour:
   ActiveMoveAirTimeTypeA: 0
   isHovering: 0
   PasstheTime: 0
-  fallmultiplier: 2.5
+  fallmultiplier: 0.5
   PlayerNumber: 1
   AButton: 
   BButton: 
@@ -7813,7 +7870,7 @@ MonoBehaviour:
   isHit: 0
   HitConfirm: 0
   numberOfHitboxes: 0
-  ImpulseModifier: 15
+  ImpulseModifier: 16
   health: 10
 --- !u!50 &1809519324
 Rigidbody2D:
@@ -8472,6 +8529,7 @@ Transform:
   - {fileID: 883442739}
   - {fileID: 414132269}
   - {fileID: 262078489}
+  - {fileID: 874926325}
   m_Father: {fileID: 2027306354}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8677,13 +8735,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Beam
   StartTime: 0.3
-  HangTime: 0.4
+  HangTime: 0.32
   AirTime: 1
   PlayerUser: 0
   Position:
   - {fileID: 659584135}
   HitBox:
-  - {fileID: 262078490}
+  - {fileID: 874926326}
   Visuals:
   - {fileID: 414132270}
 --- !u!1 &2038397798

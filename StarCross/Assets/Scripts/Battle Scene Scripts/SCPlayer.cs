@@ -66,7 +66,10 @@ public class SCPlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (CanMove == false || isHit == true) { }
+        if (CanMove == false || isHit == true)
+        {
+            //DeactivateMove();
+        }
         else
         {
             //if (Input.GetKeyDown(GameManager.GM.AButtonOne)) UseMove(0);
@@ -174,8 +177,9 @@ public class SCPlayer : MonoBehaviour
 
                     isHit = true;
 
-                    myRigidBody.AddForce(new Vector2(0, ImpulseModifier), ForceMode2D.Impulse);
                     DeactivateMove();
+                    myRigidBody.AddForce(new Vector2(0, ImpulseModifier), ForceMode2D.Impulse);
+                    
                     health--;
                 }
             }
@@ -225,18 +229,52 @@ public class SCPlayer : MonoBehaviour
     }
 
     public void DeactivateMove()
-    {
-        if (ActiveMove == -1) return;
+    {/*
+        if (StartupMove != -1)
+        {
+            Actions[ActiveMove].gameObject.SetActive(false);
+            Actions[ActiveMove].PlayerUser = 0;
+            ActiveMove = -1;
+            PasstheTime = false;
+            ActiveMoveTimer = 0;
+            myRigidBody.gravityScale = GravityScale;
+            HitConfirm = false;
+            ActiveMoveAirTimeTypeA = 0;
+            ActiveMoveStartsIn = 0;
+            return;
+        }
+        //if the player is hit before unleashing the move
+        */
+        //if (ActiveMove == -1) return;
         //if two characters trade moves, DeactivateMove can be activated aside from ending naturally.
         //if that's the case, just return.
 
-        Actions[ActiveMove].gameObject.SetActive(false);
-        Actions[ActiveMove].PlayerUser = 0;
-        ActiveMove = -1;
-        PasstheTime = false;
-        ActiveMoveTimer = 0;
-        myRigidBody.gravityScale = GravityScale;
-        HitConfirm = false;
+        if (ActiveMove != -1)
+        {
+            Actions[ActiveMove].gameObject.SetActive(false);
+            Actions[ActiveMove].PlayerUser = 0;
+            ActiveMove = -1;
+            PasstheTime = false;
+            ActiveMoveTimer = 0;
+            myRigidBody.gravityScale = GravityScale;
+            HitConfirm = false;
+            ActiveMoveAirTimeTypeA = 0;
+            ActiveMoveStartsIn = 0;
+        }
+
+        else if (StartupMove != -1)
+        {
+            Actions[StartupMove].gameObject.SetActive(false);
+            Actions[StartupMove].PlayerUser = 0;
+            ActiveMove = -1;
+            PasstheTime = false;
+            ActiveMoveTimer = 0;
+            myRigidBody.gravityScale = GravityScale;
+            HitConfirm = false;
+            ActiveMoveAirTimeTypeA = 0;
+            ActiveMoveStartsIn = 0;
+
+        }
     }
 
 }
