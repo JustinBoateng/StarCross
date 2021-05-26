@@ -10,6 +10,10 @@ public class Move : MonoBehaviour
     public float HangTime; //how long does the move linger out for?
     public float AirTime; //suspend the character in the air for this amount of seconds. (If need be)
 
+    public float EndLag;
+
+    public float damage = 1;
+
     public int PlayerUser = 0; // 1 == Player 1 is using the move, 2 == Player 2 is using the move
 
     public Transform[] Position;

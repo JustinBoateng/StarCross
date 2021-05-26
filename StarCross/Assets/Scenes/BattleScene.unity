@@ -545,6 +545,9 @@ MonoBehaviour:
   ActiveMoveAirTimeTypeA: 0
   isHovering: 0
   PasstheTime: 0
+  isInEndlag: 0
+  currentEndlag: 0
+  endlagMoveReference: 0
   fallmultiplier: 0.5
   PlayerNumber: 2
   AButton: 
@@ -559,7 +562,7 @@ MonoBehaviour:
   HitConfirm: 0
   numberOfHitboxes: 0
   ImpulseModifier: 16
-  health: 10
+  health: 5
 --- !u!212 &71758489
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3048,9 +3051,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: 
-  StartTime: 0
+  StartTime: 0.25
   HangTime: 0.2
-  AirTime: 0
+  AirTime: 0.18
+  EndLag: 0.8
+  damage: 3
   PlayerUser: 0
   Position:
   - {fileID: 1311727549}
@@ -3199,8 +3204,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Overhead Slash
   StartTime: 0.25
-  HangTime: 0.3
+  HangTime: 0.1
   AirTime: 0.29
+  EndLag: 0.8
+  damage: 1
   PlayerUser: 0
   Position:
   - {fileID: 314929342}
@@ -3480,9 +3487,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: 
-  StartTime: 0
+  StartTime: 0.25
   HangTime: 0.2
-  AirTime: 0
+  AirTime: 0.18
+  EndLag: 0.8
+  damage: 3
   PlayerUser: 0
   Position:
   - {fileID: 1463043463}
@@ -3716,7 +3725,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.037607968, y: -1.6161512}
+  m_Offset: {x: -0.27941704, y: -2.1052756}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -3727,7 +3736,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.6489929, y: 3.1542099}
+  m_Size: {x: 1.2830429, y: 4.1324587}
   m_EdgeRadius: 0
 --- !u!1 &854794050
 GameObject:
@@ -4370,6 +4379,8 @@ MonoBehaviour:
   StartTime: 0
   HangTime: 1
   AirTime: 0
+  EndLag: 0.8
+  damage: 1
   PlayerUser: 0
   Position: []
   HitBox:
@@ -4441,6 +4452,8 @@ MonoBehaviour:
   StartTime: 0
   HangTime: 0.2
   AirTime: 0
+  EndLag: 0.8
+  damage: 1
   PlayerUser: 0
   Position:
   - {fileID: 419154663}
@@ -5098,8 +5111,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Overhead Slash
   StartTime: 0.25
-  HangTime: 0.3
+  HangTime: 0.1
   AirTime: 0.29
+  EndLag: 0.8
+  damage: 1
   PlayerUser: 0
   Position:
   - {fileID: 740545852}
@@ -5213,6 +5228,8 @@ MonoBehaviour:
   StartTime: 0.3
   HangTime: 0.32
   AirTime: 1
+  EndLag: 0.8
+  damage: 1.5
   PlayerUser: 0
   Position:
   - {fileID: 675489711}
@@ -5486,7 +5503,7 @@ MonoBehaviour:
   ResetTimer: 3
   ScoreBoard: 0000000000000000
   Round: 0
-  WinCond: 7
+  WinCond: 3
   Winner: 0
   Player1WinScreen: {fileID: 1651089942}
   Player2WinScreen: {fileID: 1040187925}
@@ -5504,6 +5521,7 @@ MonoBehaviour:
   - {fileID: 254425169}
   - {fileID: 96745748}
   CurrentFinishedTime: 0
+  RoundCounter: 0
   Points: 0000000000000000
   TimeLimit: 4
 --- !u!4 &1261864474
@@ -5855,7 +5873,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1311727548}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.4, y: 2.74, z: 0}
+  m_LocalPosition: {x: -0.32, y: 2.74, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1285853347}
@@ -6591,7 +6609,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1463043462}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.4, y: 2.74, z: 0}
+  m_LocalPosition: {x: 0.04, y: 2.74, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1988045867}
@@ -6966,6 +6984,8 @@ MonoBehaviour:
   StartTime: 0
   HangTime: 0.2
   AirTime: 0
+  EndLag: 0.8
+  damage: 1
   PlayerUser: 0
   Position:
   - {fileID: 1270167099}
@@ -7857,6 +7877,9 @@ MonoBehaviour:
   ActiveMoveAirTimeTypeA: 0
   isHovering: 0
   PasstheTime: 0
+  isInEndlag: 0
+  currentEndlag: 0
+  endlagMoveReference: 0
   fallmultiplier: 0.5
   PlayerNumber: 1
   AButton: 
@@ -7871,7 +7894,7 @@ MonoBehaviour:
   HitConfirm: 0
   numberOfHitboxes: 0
   ImpulseModifier: 16
-  health: 10
+  health: 5
 --- !u!50 &1809519324
 Rigidbody2D:
   serializedVersion: 4
@@ -8134,7 +8157,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.037607968, y: -1.7561396}
+  m_Offset: {x: -0.3133248, y: -2.1924343}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -8145,7 +8168,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.6489929, y: 3.4341867}
+  m_Size: {x: 1.1232264, y: 4.306776}
   m_EdgeRadius: 0
 --- !u!1 &1937741570
 GameObject:
@@ -8549,7 +8572,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1986989479
 Transform:
   m_ObjectHideFlags: 0
@@ -8584,6 +8607,8 @@ MonoBehaviour:
   StartTime: 0.5
   HangTime: 0.5
   AirTime: 1
+  EndLag: 0.8
+  damage: 1
   PlayerUser: 0
   Position:
   - {fileID: 659584135}
@@ -8650,7 +8675,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1996485336
 Transform:
   m_ObjectHideFlags: 0
@@ -8682,6 +8707,8 @@ MonoBehaviour:
   StartTime: 0.5
   HangTime: 0.5
   AirTime: 1
+  EndLag: 0.8
+  damage: 1
   PlayerUser: 0
   Position:
   - {fileID: 675489711}
@@ -8737,6 +8764,8 @@ MonoBehaviour:
   StartTime: 0.3
   HangTime: 0.32
   AirTime: 1
+  EndLag: 0.8
+  damage: 1.5
   PlayerUser: 0
   Position:
   - {fileID: 659584135}
@@ -8817,7 +8846,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2048553995
 Transform:
   m_ObjectHideFlags: 0
@@ -8852,6 +8881,8 @@ MonoBehaviour:
   StartTime: 0.5
   HangTime: 0.5
   AirTime: 1
+  EndLag: 0.8
+  damage: 1
   PlayerUser: 0
   Position:
   - {fileID: 675489711}
@@ -9064,6 +9095,8 @@ MonoBehaviour:
   StartTime: 0
   HangTime: 1
   AirTime: 0
+  EndLag: 0.8
+  damage: 1
   PlayerUser: 0
   Position: []
   HitBox:

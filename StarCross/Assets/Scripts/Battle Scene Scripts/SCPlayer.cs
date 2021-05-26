@@ -16,6 +16,10 @@ public class SCPlayer : MonoBehaviour
     public bool isHovering = false;
     public bool PasstheTime = false;
 
+    public bool isInEndlag = false;
+    public float currentEndlag = 0.0f;
+    public float endlagMoveReference = 0.0f;
+
     public float fallmultiplier = 2.5f;
 
     public int PlayerNumber;
@@ -38,7 +42,7 @@ public class SCPlayer : MonoBehaviour
 
     public float ImpulseModifier = 30;
 
-    public int health = 10;
+    public float health = 20;
 
 
     // Start is called before the first frame update
@@ -79,12 +83,13 @@ public class SCPlayer : MonoBehaviour
 
             //Above only applies when we're bringing in the entire GameManager object from the title screen.
             //work on that later
-
-            if (Input.GetButtonDown(AButton)) UseMove(0);
-            if (Input.GetButtonDown(BButton)) UseMove(1);
-            if (Input.GetButtonDown(CButton)) UseMove(2);
-            if (Input.GetButtonDown(DButton)) UseMove(3);
-
+            if (isInEndlag == false)
+            {
+                if (Input.GetButtonDown(AButton)) UseMove(0);
+                if (Input.GetButtonDown(BButton)) UseMove(1);
+                if (Input.GetButtonDown(CButton)) UseMove(2);
+                if (Input.GetButtonDown(DButton)) UseMove(3);
+            }
             if(PasstheTime == true)
             {
                 ActiveMoveTimer += Time.deltaTime;
@@ -105,7 +110,7 @@ public class SCPlayer : MonoBehaviour
 
             if ((ActiveMoveTimer > ActiveMoveStartsIn) && (StartupMove != -1)) 
             {
-                Debug.Log("Activating Move at " + ActiveMoveTimer);
+                //Debug.Log("Activating Move at " + ActiveMoveTimer);
                 numberOfHitboxes = Actions[StartupMove].HitBox.Length;
                 Actions[StartupMove].gameObject.SetActive(true);
                 ActiveMoveTimer = 0; //acknowledge what the current active move is through number (so you know what to refer to when turning it off)
@@ -156,31 +161,48 @@ public class SCPlayer : MonoBehaviour
             //if the player comes into contact with a move that is not from the player ie. the move has a different PlayerUser value than this Player's PlayerNumber
             //then, for now ,stun the player... and Debug.Log that the player is stunned    
 
-            
+            if (isInEndlag == true)
+                currentEndlag = currentEndlag + Time.deltaTime;
+            if(currentEndlag >= endlagMoveReference)
+            {
+                isInEndlag = false;
+                currentEndlag = 0f;
+                endlagMoveReference = 0.0f;
+            }
+
+            //isInEndlag will trigger when the move deactivates
+            //endlagMoveReference updates when the button to use the move is pressed, saving it for when the move deactivates.
+            //that way, the value is saved even when all the other move data is tossed aside
+            /*we check if passthetime is false as well. other variables could work. We just need a variable that just so happened to change depending
+              on if a move was active so that we can change isInEndlag without having to put it in the UseMove function. We could just do that actually,
+              but I dont want to take into account the actual amount of time it takes for a move to start and finish within the value of the endlagMoveReference
+              as well
+            */
+
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Player " + PlayerNumber + " Collision Detected");
+        //Debug.Log("Player " + PlayerNumber + " Collision Detected");
 
         if (collision.gameObject.CompareTag("HitBox"))
         {
-            Debug.Log("Player " + PlayerNumber + " is getting hit");
+            //bug.Log("Player " + PlayerNumber + " is getting hit");
             //if (collision.GetComponentInParent<SCPlayer>().HitConfirm == true)
             //if the move is considered a hitconfirm for the opponent and the move is from the enemy, not the player themselves
             {
-                Debug.Log("Player " + collision.GetComponentInParent<SCPlayer>().PlayerNumber + " has confirmed a hit");
+               //Debug.Log("Player " + collision.GetComponentInParent<SCPlayer>().PlayerNumber + " has confirmed a hit");
                 if (collision.GetComponentInParent<SCPlayer>().PlayerNumber != PlayerNumber)
                 {
-                    Debug.Log("Attack registered from Player " + collision.GetComponentInParent<SCPlayer>().PlayerNumber);
+                    //Debug.Log("Attack registered from Player " + collision.GetComponentInParent<SCPlayer>().PlayerNumber);
 
                     isHit = true;
 
                     DeactivateMove();
                     myRigidBody.AddForce(new Vector2(0, ImpulseModifier), ForceMode2D.Impulse);
                     
-                    health--;
+                    health = health - collision.GetComponentInParent<Move>().damage;
                 }
             }
         }
@@ -211,6 +233,10 @@ public class SCPlayer : MonoBehaviour
         ActiveMoveAirTimeTypeA = Actions[i].AirTime;
         PasstheTime = true;           //set up the countdown
         StartupMove = i; //THEN set the ActiveMove variable ONLY AFTER the countdown starts
+
+        
+        endlagMoveReference = Actions[i].EndLag;
+        isInEndlag = true;
     }
 
     public void Activate()
@@ -275,6 +301,9 @@ public class SCPlayer : MonoBehaviour
             ActiveMoveStartsIn = 0;
 
         }
+
+        
+
     }
 
 }

@@ -46,7 +46,7 @@ public class GameState : MonoBehaviour
     public float[] FinishedTimes;
     public Text[] TimePrints;
     public float CurrentFinishedTime;
-
+    public int RoundCounter = 1;
     public int[] Points = new int[2] {0,0};
 
     public float TimeLimit;
@@ -67,8 +67,10 @@ public class GameState : MonoBehaviour
         Player2WinScreen.gameObject.SetActive(false);
 
         FinishedTimes = new float[(WinCond * 2) -1];
-        TimePrints = new Text[FinishedTimes.Length];
+        //TimePrints = new Text[FinishedTimes.Length];
         
+        RoundCounter = 1;
+        GameOver = false;
 
     }
 
@@ -218,35 +220,75 @@ public class GameState : MonoBehaviour
 
         if (RoundOver)
         {
+
             Debug.Log("Round " + Round);
             
             FinishedTimes[Round-1] = timer - TimeLimit;
             CurrentFinishedTime = timer;
+            
             //Update the FinishedTimes Tracker
 
-            if (ScoreBoard[0] >= WinCond || ScoreBoard[1] >= WinCond)
+            if (ScoreBoard[0] >= WinCond || ScoreBoard[1] >= WinCond || PlayerA.health <= 0 || PlayerB.health <= 0)
             {
-                
 
-                if (ScoreBoard[0] == ScoreBoard[1])
+
+                if ((ScoreBoard[0] == ScoreBoard[1]))
                 {
+                    Debug.Log("Case A");
                     ScoreBoard[0]--;
                     ScoreBoard[1]--;
                     Round--;
+                    RoundCounter--;
                 }//Tie situation
 
-                else if (ScoreBoard[0] >= WinCond)
+                if ((PlayerA.health <= 0) && (PlayerB.health <= 0))
                 {
+                    Debug.Log("Case B");
+                    PlayerA.health = 1;
+                    PlayerB.health = 1;
+                }//Tie situation
+
+
+                if (ScoreBoard[0] >= WinCond)
+                {
+                    Debug.Log("Case C");
+
                     Winner = 1;
                 }
 
-                else Winner = 2;
-            }          
-      
+                else if (ScoreBoard[1] >= WinCond)
+                {
+                    Debug.Log("Case D");
+
+                    Winner = 2;
+                }
+
+                if (PlayerB.health <= 0)
+                {
+                    Debug.Log("Case E");
+
+                    Debug.Log("Player 2's Health's depleted");
+                    Winner = 1;
+                }
+
+                else if (PlayerA.health <= 0)
+                {
+                    Debug.Log("Case F");
+                    Debug.Log("Player 1's Health's depleted");
+                    Winner = 2;
+                }
+
+
+
+            }
+
+
             //Modify how long it takes to reset the stage after a round finishes
             ResetTimer -= Time.deltaTime;
             if(ResetTimer <= 0 && !GameOver)
-            {                
+            {
+                Debug.Log("Resetting the round check 1");
+
                 ResetTheRound();
             }
           
@@ -255,9 +297,13 @@ public class GameState : MonoBehaviour
 
     public void ResetTheRound()
     {
+        Debug.Log("Resetting the round check 2");
+
         //Deciding the winner
         if (Winner != 0)
         {
+            Debug.Log("Resetting the round check 3");
+
             Debug.Log("A Winner has been decided");
 
             GameOver = true; //set this to true so you dont constantly run ResetTheRound over and over again
@@ -270,11 +316,11 @@ public class GameState : MonoBehaviour
                     EventSystem.current.GetComponent<StandaloneInputModule>().verticalAxis = "VerticalA";
                     EventSystem.current.GetComponent<StandaloneInputModule>().submitButton = "ClashA";
 
-                    for (int i = 0; i < FinishedTimes.Length; i++)
+                    for (int i = 0; i < RoundCounter; i++)
                     {
                         if (FinishedTimes[i] == 0)
-                            TimePrints[i].text = "Round " + i + ": --:--";
-                        else TimePrints[i].text = "Round " + i + ": " + FinishedTimes[i];
+                             TimePrints[i].text = "Round " + i+1 + ": --:--";
+                        else TimePrints[i].text = "Round " + i+1 + ": " + FinishedTimes[i]; 
                         TimePrints[i].gameObject.transform.position = new Vector2(ScorePositionA.transform.position.x, TimePrints[i].gameObject.transform.position.y);
                     }
                     //try sliding it from outside of the screen to inside the screen 
@@ -287,14 +333,17 @@ public class GameState : MonoBehaviour
                     EventSystem.current.GetComponent<StandaloneInputModule>().verticalAxis = "VerticalB";
                     EventSystem.current.GetComponent<StandaloneInputModule>().submitButton = "ClashB";
 
-                    for (int i = 0; i < TimePrints.Length; i++)
+                    for (int i = 0; i < RoundCounter; i++)
                     {
                         if (FinishedTimes[i] == 0)
-                            TimePrints[i].text = "Round " + i + ": --:--";
-                        else TimePrints[i].text = "Round " + i + ": " + FinishedTimes[i];
+                            TimePrints[i].text = "Round " + i+1 + ": --:--";
+                        else TimePrints[i].text = "Round " + i+1 + ": " + FinishedTimes[i];
                         TimePrints[i].gameObject.transform.position = new Vector2(ScorePositionB.transform.position.x, TimePrints[i].gameObject.transform.position.y);
 
                     }
+                    /*The single purpose for RoundCounter is to keep track of rounds instead of just the already established FinishedTimes array's length so 
+                     * that the i doesn't exceed the TimePrints Array*/
+
                     break;
             }
 
@@ -321,5 +370,6 @@ public class GameState : MonoBehaviour
         PlayerA.Deactivate();
         PlayerB.Deactivate();
         RoundOver = false;
+        RoundCounter++;
     }
 }
