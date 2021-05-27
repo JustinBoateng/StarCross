@@ -24,6 +24,9 @@ public class Move : MonoBehaviour
 
     public SpriteRenderer[] Visuals;
 
+    public float HorDistance;
+    public float VerDistance;
+
     // Start is called before the first frame update
     void Start()
     {

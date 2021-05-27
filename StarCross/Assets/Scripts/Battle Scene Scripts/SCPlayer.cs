@@ -7,6 +7,8 @@ public class SCPlayer : MonoBehaviour
 
     //public Transform[] MovePositions;
 
+    public string PlayerCharacter = "test";
+    
     public Move[] Actions;
     public int StartupMove = -1;
     public int ActiveMove = -1;
@@ -44,6 +46,13 @@ public class SCPlayer : MonoBehaviour
 
     public float health = 20;
 
+    public int Facing = 1;
+
+    public bool MoveisActive = false;
+
+    //1 == facing right
+    //-1 ==  facing left
+    //Facing should update whenever the player is touching the ground.
 
     // Start is called before the first frame update
     void Start()
@@ -65,11 +74,26 @@ public class SCPlayer : MonoBehaviour
         }
         myRigidBody = GetComponent<Rigidbody2D>();
         GravityScale = myRigidBody.gravityScale;
+
+        for (int j = 0; j < Actions.Length; j++)
+        {
+            
+            Actions[j].gameObject.SetActive(false);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(Facing == -1)
+        {
+            GetComponent<SpriteRenderer>().flipX = true;
+        }
+
+        else
+        {
+            GetComponent<SpriteRenderer>().flipX = false;
+        }
         if (CanMove == false || isHit == true)
         {
             //DeactivateMove();
@@ -113,12 +137,13 @@ public class SCPlayer : MonoBehaviour
                 //Debug.Log("Activating Move at " + ActiveMoveTimer);
                 numberOfHitboxes = Actions[StartupMove].HitBox.Length;
                 Actions[StartupMove].gameObject.SetActive(true);
+                Actions[StartupMove].gameObject.SetActive(true);
                 ActiveMoveTimer = 0; //acknowledge what the current active move is through number (so you know what to refer to when turning it off)
 
                 ActiveMove = StartupMove;
                 StartupMove = -1;
 
-
+                MoveisActive = true;
 
             }
             //ActiveMoveTimer can only be greater than ActiveMoveStartsin if a Move was used.
@@ -212,6 +237,7 @@ public class SCPlayer : MonoBehaviour
     
           Then announce that a hit has been scored.
           */
+     
         else if (!collision) { }
     
 
@@ -221,9 +247,15 @@ public class SCPlayer : MonoBehaviour
     //Detect if the player got hit by a move
     //attaches to the main body of the player
 
+    
+    
     public void UseMove(int i)
     {
-        this.gameObject.transform.position = Actions[i].Position[0].transform.position; //For now these moves only put you in one set position
+
+        this.gameObject.transform.position = new Vector2(
+            this.gameObject.transform.position.x  + (Facing * Actions[i].HorDistance),
+            this.gameObject.transform.position.y  + Actions[i].VerDistance);
+            //  Actions[i].Position[0].transform.position; //For now these moves only put you in one set position
 
         Actions[i].PlayerUser = PlayerNumber; //Identify the source player, the person who's using the move
 
@@ -286,6 +318,11 @@ public class SCPlayer : MonoBehaviour
             HitConfirm = false;
             ActiveMoveAirTimeTypeA = 0;
             ActiveMoveStartsIn = 0;
+
+            numberOfHitboxes = 0;
+
+            MoveisActive = false;
+
         }
 
         else if (StartupMove != -1)
@@ -300,9 +337,15 @@ public class SCPlayer : MonoBehaviour
             ActiveMoveAirTimeTypeA = 0;
             ActiveMoveStartsIn = 0;
 
+            numberOfHitboxes = 0;
+
+
+            MoveisActive = false;
+
+
         }
 
-        
+
 
     }
 
