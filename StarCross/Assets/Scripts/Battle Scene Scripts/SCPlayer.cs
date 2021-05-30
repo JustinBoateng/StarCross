@@ -50,6 +50,7 @@ public class SCPlayer : MonoBehaviour
 
     public bool MoveisActive = false;
 
+    public Transform[] MoveSpawnPos;
     //1 == facing right
     //-1 ==  facing left
     //Facing should update whenever the player is touching the ground.
