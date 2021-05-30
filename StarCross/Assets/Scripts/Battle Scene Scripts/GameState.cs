@@ -80,7 +80,7 @@ public class GameState : MonoBehaviour
 
 
         //Establishing Move Pools
-
+        /*
         switch (PlayerA.PlayerCharacter)
         {
             case "test":
@@ -112,7 +112,7 @@ public class GameState : MonoBehaviour
                 MoveD.transform.parent = PlayerA.transform;
                 PlayerA.Actions[3] = MoveD;
 
-                /*
+                
                 Move MoveA = Instantiate(MovePool[0]);
                 MoveA.gameObject.transform.parent = PlayerA.gameObject.transform;
                 PlayerA.Actions[0] = MoveA;
@@ -130,19 +130,19 @@ public class GameState : MonoBehaviour
                 Move MoveD = Instantiate(MovePool[4]);
                 MoveD.gameObject.transform.parent = PlayerA.gameObject.transform;
                 PlayerA.Actions[3] = MoveD;
-                */
+                
 
                 for (int j = 0; j < PlayerA.Actions.Length; j++)
                 {
                     PlayerA.Actions[j].gameObject.SetActive(true);
                    
                 }
-                /*This is important so that the first time a move is used it can actually appear. 
+               This is important so that the first time a move is used it can actually appear. 
                 We need to call setActive for it at least once.
                 In SCPlayer, it will setActive it back to false at start. 
                 SetActive being true NEEDS to be first, hence why we made this into an Awake Function.
                 ...theouretically, we could've just put this in a different Awake function within the same class though.
-                */
+              
 
                 break;
 
@@ -171,7 +171,7 @@ public class GameState : MonoBehaviour
                 MoveH.PlayerUser = PlayerA.PlayerNumber;
                 //MoveH.transform.position = PlayerA.transform.position;
                 PlayerA.Actions[3] = MoveH;
-                /*
+                
                 Move MoveE = Instantiate(MovePool[1]);
                 MoveE.gameObject.transform.parent = PlayerA.gameObject.transform;
                 PlayerA.Actions[0] = MoveE;
@@ -187,7 +187,7 @@ public class GameState : MonoBehaviour
                 Move MoveH = Instantiate(MovePool[3]);
                 MoveH.gameObject.transform.parent = PlayerA.gameObject.transform;
                 PlayerA.Actions[3] = MoveH;
-                */
+                
                 break;
         }
 
@@ -218,7 +218,7 @@ public class GameState : MonoBehaviour
                 //MoveD.transform.position = PlayerB.transform.position;
                 PlayerB.Actions[3] = MoveD;
 
-                /*
+                
                 Move MoveA = Instantiate(MovePool[0]);
                 MoveA.gameObject.transform.parent = PlayerA.gameObject.transform;
                 PlayerA.Actions[0] = MoveA;
@@ -236,7 +236,7 @@ public class GameState : MonoBehaviour
                 Move MoveD = Instantiate(MovePool[4]);
                 MoveD.gameObject.transform.parent = PlayerA.gameObject.transform;
                 PlayerA.Actions[3] = MoveD;
-                */
+               
                 break;
 
             case "test 2":
@@ -264,7 +264,7 @@ public class GameState : MonoBehaviour
                 MoveH.PlayerUser = PlayerB.PlayerNumber;
                 //MoveH.transform.position = PlayerB.transform.position;
                 PlayerB.Actions[3] = MoveH;
-                /*
+                
                 Move MoveE = Instantiate(MovePool[1]);
                 MoveE.gameObject.transform.parent = PlayerA.gameObject.transform;
                 PlayerA.Actions[0] = MoveE;
@@ -280,10 +280,12 @@ public class GameState : MonoBehaviour
                 Move MoveH = Instantiate(MovePool[3]);
                 MoveH.gameObject.transform.parent = PlayerA.gameObject.transform;
                 PlayerA.Actions[3] = MoveH;
-                */
+                *
                 
                 break;
         }
+        
+        */
 
         //Read each players' character code, and assign to them their Moves associated to their character
     }
