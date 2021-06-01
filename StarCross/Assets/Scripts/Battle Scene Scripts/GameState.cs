@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Threading;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System;
 
 public class GameState : MonoBehaviour
 {
@@ -51,6 +52,12 @@ public class GameState : MonoBehaviour
 
     public float TimeLimit;
 
+    public Camera MainCamera;
+    public float zoomAMT = 20f;
+    public float prevZoomAMT;
+    public float prevDistance = 4;
+    public Transform CameraPoint;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -73,7 +80,8 @@ public class GameState : MonoBehaviour
         RoundCounter = 1;
         GameOver = false;
 
-        //Read each players' character code, and assign to them their Moves associated to their character
+        prevZoomAMT = zoomAMT;
+
     }
 
     //Start and Awake work in similar ways except that Awake is called first and, unlike Start, will be called even if the script component is disabled.
@@ -82,6 +90,10 @@ public class GameState : MonoBehaviour
     void Update()
     {
         LocateOpponent();
+        CameraAdjust();
+        MainCamera.fieldOfView = zoomAMT;
+        prevZoomAMT = zoomAMT;
+
 
         if (!RoundOver)
         {
@@ -392,4 +404,49 @@ public class GameState : MonoBehaviour
             PlayerA.Facing = -1;//P1 Facing Left
         }
     }
+
+    public void CameraAdjust() {
+
+        if (PlayerA.transform.position.y > 2 || PlayerB.transform.position.y > 2)
+        {
+            if (PlayerA.transform.position.y >= PlayerB.transform.position.y)
+                CameraPoint.transform.position = new Vector2((PlayerA.transform.position.x + PlayerB.transform.position.x), PlayerA.transform.position.y);
+
+            else
+                CameraPoint.transform.position = new Vector2((PlayerA.transform.position.x + PlayerB.transform.position.x), PlayerB.transform.position.y);
+        }
+
+        else
+        {
+                CameraPoint.transform.position = new Vector2((PlayerA.transform.position.x + PlayerB.transform.position.x), 0);
+        }
+
+        if (Math.Abs(PlayerA.transform.position.x) + Math.Abs(PlayerB.transform.position.x) > 4)
+        {
+            if (Math.Abs(PlayerA.transform.position.x) + Math.Abs(PlayerB.transform.position.x) > prevDistance)
+            {
+                zoomAMT++;
+                prevDistance = Math.Abs(PlayerA.transform.position.x) + Math.Abs(PlayerB.transform.position.x);
+            }
+
+            else if (Math.Abs(PlayerA.transform.position.x) + Math.Abs(PlayerB.transform.position.x) < prevDistance)
+            {
+                zoomAMT--;
+                prevDistance = Math.Abs(PlayerA.transform.position.x) + Math.Abs(PlayerB.transform.position.x);
+            }
+
+            else if (Math.Abs(PlayerA.transform.position.x) + Math.Abs(PlayerB.transform.position.x) == prevDistance)
+            {
+                prevDistance = Math.Abs(PlayerA.transform.position.x) + Math.Abs(PlayerB.transform.position.x);
+            }
+
+        }
+
+        else
+        {
+            zoomAMT = 20f;
+            prevDistance = Math.Abs(4);
+        }
+    }
+
 }
