@@ -80,7 +80,7 @@ public class GameState : MonoBehaviour
         RoundCounter = 1;
         GameOver = false;
 
-        prevZoomAMT = zoomAMT;
+        //prevZoomAMT = zoomAMT;
 
     }
 
@@ -90,9 +90,9 @@ public class GameState : MonoBehaviour
     void Update()
     {
         LocateOpponent();
-        CameraAdjust();
-        MainCamera.fieldOfView = zoomAMT;
-        prevZoomAMT = zoomAMT;
+        //CameraAdjust();
+        //MainCamera.fieldOfView = zoomAMT;
+        //prevZoomAMT = zoomAMT;
 
 
         if (!RoundOver)
@@ -404,7 +404,7 @@ public class GameState : MonoBehaviour
             PlayerA.Facing = -1;//P1 Facing Left
         }
     }
-
+    /*
     public void CameraAdjust() {
 
         if (PlayerA.transform.position.y > 2 || PlayerB.transform.position.y > 2)
@@ -448,5 +448,5 @@ public class GameState : MonoBehaviour
             prevDistance = Math.Abs(4);
         }
     }
-
+    */
 }

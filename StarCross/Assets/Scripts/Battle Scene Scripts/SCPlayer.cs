@@ -78,7 +78,7 @@ public class SCPlayer : MonoBehaviour
 
         for (int j = 0; j < Actions.Length; j++)
         {
-            
+            Actions[j].gameObject.SetActive(true);
             Actions[j].gameObject.SetActive(false);
         }
     }
@@ -86,13 +86,13 @@ public class SCPlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Facing == -1)
+        if(Facing == -1 && !isInEndlag)
         {
             //GetComponent<SpriteRenderer>().flipX = true;
             transform.rotation = new Quaternion(transform.rotation.x, 180, transform.rotation.z, transform.rotation.w);
         }
 
-        else
+        else if(Facing == 1 && !isInEndlag)
         {
             //GetComponent<SpriteRenderer>().flipX = false;
             transform.rotation = new Quaternion(transform.rotation.x, 0, transform.rotation.z, transform.rotation.w);
@@ -135,12 +135,14 @@ public class SCPlayer : MonoBehaviour
                 myRigidBody.velocity += Vector2.up * Physics2D.gravity.y * (fallmultiplier - 1) * Time.deltaTime;
             } //Better Falling speed equation
 
-            if ((ActiveMoveTimer > ActiveMoveStartsIn) && (StartupMove != -1)) 
+            if ((ActiveMoveTimer >= ActiveMoveStartsIn) && (StartupMove != -1)) 
             {
-                //Debug.Log("Activating Move at " + ActiveMoveTimer);
-                numberOfHitboxes = Actions[StartupMove].HitBox.Length;
-                Actions[StartupMove].gameObject.SetActive(true);
-                Actions[StartupMove].gameObject.SetActive(true);
+                Debug.Log("Setting the Active Move at " + ActiveMoveTimer);
+                //numberOfHitboxes = Actions[StartupMove].HitBox.Length;
+               
+
+                //Actions[StartupMove].gameObject.SetActive(true);
+                //Actions[StartupMove].gameObject.SetActive(true);
                 ActiveMoveTimer = 0; //acknowledge what the current active move is through number (so you know what to refer to when turning it off)
 
                 ActiveMove = StartupMove;
@@ -148,6 +150,12 @@ public class SCPlayer : MonoBehaviour
 
                 MoveisActive = true;
 
+            }
+
+            if(ActiveMove != -1)
+            {
+                Debug.Log("Making Sure to Activate Move at " + ActiveMoveTimer);
+                Actions[ActiveMove].gameObject.SetActive(true);
             }
             //ActiveMoveTimer can only be greater than ActiveMoveStartsin if a Move was used.
             //when it does become greater, actually ACTIVATE the move, then reset the timer
@@ -178,8 +186,10 @@ public class SCPlayer : MonoBehaviour
             //do the same for any other hitboxes
 
 
-            if ((ActiveMove != -1) && (ActiveMoveTimer > Actions[ActiveMove].HangTime))
+            if ((ActiveMove != -1) && (ActiveMoveTimer >= Actions[ActiveMove].HangTime))
             {
+                Debug.Log("Deactivating Move");
+                
                 DeactivateMove();
 
             }//once enough time passes, consider the move deactive.
@@ -231,6 +241,7 @@ public class SCPlayer : MonoBehaviour
                     myRigidBody.AddForce(new Vector2(0, ImpulseModifier), ForceMode2D.Impulse);
                     
                     health = health - collision.GetComponentInParent<Move>().damage;
+                    if (health <= 0) health = 0;
                 }
             }
         }
@@ -314,6 +325,7 @@ public class SCPlayer : MonoBehaviour
         {
             Actions[ActiveMove].gameObject.SetActive(false);
             Actions[ActiveMove].PlayerUser = 0;
+            StartupMove = -1;
             ActiveMove = -1;
             PasstheTime = false;
             ActiveMoveTimer = 0;
@@ -326,12 +338,15 @@ public class SCPlayer : MonoBehaviour
 
             MoveisActive = false;
 
+            return;
+
         }
 
         else if (StartupMove != -1)
         {
             Actions[StartupMove].gameObject.SetActive(false);
             Actions[StartupMove].PlayerUser = 0;
+            StartupMove = -1;
             ActiveMove = -1;
             PasstheTime = false;
             ActiveMoveTimer = 0;
